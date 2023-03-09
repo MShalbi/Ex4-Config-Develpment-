@@ -6,12 +6,18 @@ configure_infrastructure:
     - checkout
     - add_ssh_keys:
             # You can get this ID in the section where you registered the SSH Key
-            fingerprints: ["XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX"] 
+            fingerprints: ["b0:12:c2:f9:b5:ee:9f:0c:8f:f4:dc:f4:bc:61:cb:14"] 
     - run:
         name: Install Ansible
         command: |
-          # Install Ansible
+          apk add --update ansible
     - run:
         name: Run Playbook and Configure server
         command: |
-          # Your command
+          ansible-playbook -i inventory.txt main.yml -v
+workflows:
+  # Name the workflow "welcome"
+  my_workflow:
+    # Run the welcome/run job in its own container
+    jobs:
+      - configure_infrastructure
